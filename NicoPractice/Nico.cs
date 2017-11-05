@@ -10,20 +10,15 @@ namespace NicoPractice
     {
         public string NicoVariation(string key, string message)
         {
-            var encrypts = GetEncodeString(key.ToCharArray(), message.ToCharArray());
-
-            return string.Join("", encrypts.Select(x => x.Value).ToArray()); 
-        }
-
-        private IOrderedEnumerable<KeyValuePair<char, char>> GetEncodeString(char[] letters, char[] plaintext)
-        {
+            char[] letters = key.ToCharArray();
             var container = new Dictionary<char, char>();
             for (var indexOfLetters = 0; indexOfLetters < letters.Length; indexOfLetters++)
             {
-                container.Add(letters[indexOfLetters], plaintext[indexOfLetters]);
+                container.Add(letters[indexOfLetters], message.ToCharArray()[indexOfLetters]);
             }
 
-            return container.OrderBy(x => x.Key);
+            var encryptsContainer = container.OrderBy(x => x.Key);
+            return string.Join("", encryptsContainer.Select(x => x.Value).ToArray());
         }
     }
 }
