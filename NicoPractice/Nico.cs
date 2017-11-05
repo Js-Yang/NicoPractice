@@ -12,6 +12,13 @@ namespace NicoPractice
         {
             var letters = key.ToCharArray();
             var plaintext = message.ToCharArray();
+            var encrypts = GetEncodeString(letters, plaintext);
+
+            return string.Join("", encrypts.Select(x => x.Value).ToArray()); 
+        }
+
+        private IOrderedEnumerable<KeyValuePair<char, char>> GetEncodeString(char[] letters, char[] plaintext)
+        {
             var container = new Dictionary<char, char>();
             for (var indexOfLetters = 0; indexOfLetters < letters.Length; indexOfLetters++)
             {
@@ -19,8 +26,7 @@ namespace NicoPractice
             }
 
             var encrypts = container.OrderBy(x => x.Key);
-            
-            return string.Join("", encrypts.Select(x => x.Value).ToArray()); 
+            return encrypts;
         }
     }
 }
