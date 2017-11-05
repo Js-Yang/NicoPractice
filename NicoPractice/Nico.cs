@@ -10,9 +10,7 @@ namespace NicoPractice
     {
         public string NicoVariation(string key, string message)
         {
-            var letters = key.ToCharArray();
-            var plaintext = message.ToCharArray();
-            var encrypts = GetEncodeString(letters, plaintext);
+            var encrypts = GetEncodeString(key.ToCharArray(), message.ToCharArray());
 
             return string.Join("", encrypts.Select(x => x.Value).ToArray()); 
         }
@@ -25,8 +23,7 @@ namespace NicoPractice
                 container.Add(letters[indexOfLetters], plaintext[indexOfLetters]);
             }
 
-            var encrypts = container.OrderBy(x => x.Key);
-            return encrypts;
+            return container.OrderBy(x => x.Key);
         }
     }
 }
