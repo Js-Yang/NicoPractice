@@ -5,51 +5,63 @@ namespace NicoPractice
 {
     public class Nico
     {
+        private const char DefaultAlphabet = ' ';
+
         public string NicoVariation(string letters, string message)
         {
             var keys = letters.ToCharArray();
-            var content = message.ToCharArray();
-            var container = GetContainer(keys, content);
-
-            return GetCyphertext(keys, content, container.OrderBy(x => x.Key));
+            var alphabets = message.ToCharArray();
+            var container = GetRelationShip(keys, alphabets);
+            return GetCyphertext(keys, alphabets, container.OrderBy(x => x.Key));
         }
 
         private static string GetCyphertext(char[] keys, char[] content, IOrderedEnumerable<KeyValuePair<char, List<char>>> encryptsContainer)
         {
-            var result = string.Empty;
+            var cyphertext = string.Empty;
             var columnCount = keys.Length;
-            var rowCount = (content.Length % keys.Length) == 0
-                ? (content.Length / keys.Length)
-                : (content.Length / keys.Length) + 1;
+            var rowCount = GetRowsCount(keys, content);
+
             for (var indexOfRow = 0; indexOfRow < rowCount; indexOfRow++)
             {
                 for (var indexOfColumn = 0; indexOfColumn < columnCount; indexOfColumn++)
                 {
-                    var value = ' ';
-                    if (encryptsContainer.ElementAt(indexOfColumn).Value.Count > indexOfRow)
-                    {
-                        value = encryptsContainer.ElementAt(indexOfColumn).Value[indexOfRow];
-                    }
-                    result = string.Concat(result, value);
+                    cyphertext = string.Concat(cyphertext, GetAlphabet(encryptsContainer, indexOfColumn, indexOfRow));
                 }
             }
-            return result;
+            return cyphertext;
         }
 
-        private static Dictionary<char, List<char>> GetContainer(char[] keys, char[] content)
+        private static char GetAlphabet(IOrderedEnumerable<KeyValuePair<char, List<char>>> encryptsContainer, int indexOfColumn, int indexOfRow)
+        {
+            var alphabet = DefaultAlphabet;
+            if (encryptsContainer.ElementAt(indexOfColumn).Value.Count > indexOfRow)
+            {
+                alphabet = encryptsContainer.ElementAt(indexOfColumn).Value[indexOfRow];
+            }
+            return alphabet;
+        }
+
+        private static int GetRowsCount(char[] keys, char[] content)
+        {
+            return (content.Length % keys.Length) == 0
+                ? (content.Length / keys.Length)
+                : (content.Length / keys.Length) + 1;
+        }
+
+        private static Dictionary<char, List<char>> GetRelationShip(char[] keys, char[] content)
         {
             var container = new Dictionary<char, List<char>>();
             var indexOfLetters = 0;
-            foreach (var value in content)
+            foreach (var alphabet in content)
             {
                 var key = keys[indexOfLetters++];
                 if (container.ContainsKey(key))
                 {
-                    container[key].Add(value);
+                    container[key].Add(alphabet);
                 }
                 else
                 {
-                    container.Add(key, new List<char>() { value });
+                    container.Add(key, new List<char>() { alphabet });
                 }
                 
                 if (indexOfLetters == keys.Length)
