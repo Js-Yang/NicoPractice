@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NicoPractice\NicoPractice.csproj">
+      <Project>{F43832CF-377B-4D14-972B-94DDDFE5B460}</Project>
+      <Name>NicoPractice</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

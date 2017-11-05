@@ -8,5 +8,9 @@ namespace NicoPractice
 {
     public class Nico
     {
+        public string NicoVariation(string key, string message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
