@@ -19,5 +19,16 @@ namespace NicoPractice.Tests
 
             Assert.AreEqual(expected,result);
         }
+
+        [Test]
+        public void Nico_When_Key_is_bac_And_Message_is_abc_should_return_bac()
+        {
+            var nico = new Nico();
+            var result = nico.NicoVariation("bac", "abc");
+
+            var expected = "bac";
+
+            Assert.AreEqual(expected, result);
+        }
     }
 }
