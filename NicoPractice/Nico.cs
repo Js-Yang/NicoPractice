@@ -18,12 +18,19 @@ namespace NicoPractice
         {
             var result = string.Empty;
             var columnCount = keys.Length;
-            var rowCount = (content.Length / keys.Length);
+            var rowCount = (content.Length % keys.Length) == 0
+                ? (content.Length / keys.Length)
+                : (content.Length / keys.Length) + 1;
             for (var indexOfRow = 0; indexOfRow < rowCount; indexOfRow++)
             {
                 for (var indexOfColumn = 0; indexOfColumn < columnCount; indexOfColumn++)
                 {
-                    result = string.Concat(result, encryptsContainer.ElementAt(indexOfColumn).Value[indexOfRow]);
+                    var value = ' ';
+                    if (encryptsContainer.ElementAt(indexOfColumn).Value.Count > indexOfRow)
+                    {
+                        value = encryptsContainer.ElementAt(indexOfColumn).Value[indexOfRow];
+                    }
+                    result = string.Concat(result, value);
                 }
             }
             return result;
