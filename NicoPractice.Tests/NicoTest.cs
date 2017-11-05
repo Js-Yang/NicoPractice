@@ -10,12 +10,12 @@ namespace NicoPractice.Tests
     public class NicoTest
     {
         [Test]
-        public void Nico_When_Key_is_abc_And_Message_is_abcd_should_return_abcd()
+        public void Nico_When_Key_is_abc_And_Message_is_abc_should_return_abc()
         {
             var nico = new Nico();
-            var result = nico.NicoVariation("abc","abcd");
+            var result = nico.NicoVariation("abc","abc");
 
-            var expected = "abcd  ";
+            var expected = "abc";
 
             Assert.AreEqual(expected,result);
         }

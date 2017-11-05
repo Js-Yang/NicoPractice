@@ -10,7 +10,8 @@ namespace NicoPractice
     {
         public string NicoVariation(string key, string message)
         {
-            throw new NotImplementedException();
+            var result = string.Empty;
+            return result;
         }
     }
 }
