@@ -10,10 +10,8 @@ namespace NicoPractice
     {
         public string NicoVariation(string key, string message)
         {
-            var result = string.Empty;
             var container = message.ToCharArray();
-            result = new string(container);
-            return result;
+            return new string(container);
         }
     }
 }
