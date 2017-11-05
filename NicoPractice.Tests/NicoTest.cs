@@ -9,26 +9,16 @@ namespace NicoPractice.Tests
 {
     public class NicoTest
     {
-        [Test]
-        public void Nico_When_Key_is_abc_And_Message_is_abc_should_return_abc()
+        [TestCase("abc","abc","abc",TestName = "Nico_When_Key_is_abc_And_Message_is_abc_should_return_abc")]
+        [TestCase("bac","abc","bac",TestName = "Nico_When_Key_is_bac_And_Message_is_abc_should_return_bac")]
+        public void Basic_Nico_Variation(string key, string message, string expectedResult)
         {
             var nico = new Nico();
-            var result = nico.NicoVariation("abc","abc");
+            var result = nico.NicoVariation(key,message);
 
-            var expected = "abc";
+            var expected = expectedResult;
 
             Assert.AreEqual(expected,result);
-        }
-
-        [Test]
-        public void Nico_When_Key_is_bac_And_Message_is_abc_should_return_bac()
-        {
-            var nico = new Nico();
-            var result = nico.NicoVariation("bac", "abc");
-
-            var expected = "bac";
-
-            Assert.AreEqual(expected, result);
         }
     }
 }
