@@ -11,7 +11,7 @@ namespace NicoPractice.Tests
     {
         [TestCase("abc","abc","abc",TestName = "Nico_When_Key_is_abc_And_Message_is_abc_should_return_abc")]
         [TestCase("bac","abc","bac",TestName = "Nico_When_Key_is_bac_And_Message_is_abc_should_return_bac")]
-        [TestCase("abc", "abcd", "abcd  ", TestName = "Nico_When_Key_is_bac_And_Message_is_abcd_should_return_abcd  ")]
+        [TestCase("abc", "abcdef", "abcdef", TestName = "Nico_When_Key_is_bac_And_Message_is_abcdef_should_return_abcdef")]
         public void Basic_Nico_Variation(string key, string message, string expectedResult)
         {
             var nico = new Nico();
