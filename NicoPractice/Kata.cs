@@ -7,26 +7,58 @@ namespace NicoPractice
     {
         private const char DefaultAlphabet = ' ';
 
-        public static string Nico(string letters, string message)
+        public static string Nico(string keys, string plainText)
         {
-            var keys = letters.ToCharArray();
-            var alphabets = message.ToCharArray();
-            var combination = GetRelationShip(keys, alphabets);
-            return GetCyphertext(combination.OrderBy(x => x.Key));
+            var cyphertextArray = GetCyphertext(keys, plainText);
+            return GetCyphertext(cyphertextArray);
         }
 
-        private static string GetCyphertext(IOrderedEnumerable<KeyValuePair<char, List<char>>> encryptsContainer)
+        private static IOrderedEnumerable<KeyValuePair<char, List<char>>> GetCyphertext(string keys, string plainText)
+        {
+            var container = new Dictionary<char, List<char>>();
+            var indexOfKeys = 0;
+            foreach (var alphabet in plainText.ToCharArray())
+            {
+                UpdateContainer(container, keys[indexOfKeys++], alphabet);
+                
+                indexOfKeys = ResetIndexIfOverLength(keys.Length, indexOfKeys);
+            }
+            return container.OrderBy(x => x.Key);
+        }
+
+        private static int ResetIndexIfOverLength(int keysLength, int index)
+        {
+            if (index == keysLength)
+            {
+                index = 0;
+            }
+            return index;
+        }
+
+        private static void UpdateContainer(Dictionary<char, List<char>> container, char key, char alphabet)
+        {
+            if (container.ContainsKey(key))
+            {
+                container[key].Add(alphabet);
+            }
+            else
+            {
+                container.Add(key, new List<char>() {alphabet});
+            }
+        }
+
+        private static string GetCyphertext(IOrderedEnumerable<KeyValuePair<char, List<char>>> cyphertextArray)
         {
             var cyphertext = string.Empty;
-            var keysCount = encryptsContainer.Count();
-            var alphabetCount = encryptsContainer.Sum(keyValuePair => keyValuePair.Value.Count);
-            var dataHeight = GetDataHeight(keysCount, alphabetCount);
+            var colCount = cyphertextArray.Count();
+            var rowsCount = cyphertextArray.Sum(keyValuePair => keyValuePair.Value.Count);
+            var dataRow = GetDataRows(colCount, rowsCount);
 
-            for (var indexOfHeight = 0; indexOfHeight < dataHeight; indexOfHeight++)
+            for (var indexOfRow = 0; indexOfRow < dataRow; indexOfRow++)
             {
-                for (var indexOfKey = 0; indexOfKey < keysCount; indexOfKey++)
+                for (var indexOfCol = 0; indexOfCol < colCount; indexOfCol++)
                 {
-                    cyphertext = string.Concat(cyphertext, GetAlphabetBy(encryptsContainer, indexOfKey, indexOfHeight));
+                    cyphertext = string.Concat(cyphertext, GetAlphabetBy(cyphertextArray, indexOfCol, indexOfRow));
                 }
             }
             return cyphertext;
@@ -42,35 +74,11 @@ namespace NicoPractice
             return alphabet;
         }
 
-        private static int GetDataHeight(int keysLength, int rowsCount)
+        private static int GetDataRows(int colCount, int rowsCount)
         {
-            return (rowsCount % keysLength) == 0
-                ? (rowsCount / keysLength)
-                : (rowsCount / keysLength) + 1;
-        }
-
-        private static Dictionary<char, List<char>> GetRelationShip(char[] keys, char[] content)
-        {
-            var container = new Dictionary<char, List<char>>();
-            var indexOfLetters = 0;
-            foreach (var alphabet in content)
-            {
-                var key = keys[indexOfLetters++];
-                if (container.ContainsKey(key))
-                {
-                    container[key].Add(alphabet);
-                }
-                else
-                {
-                    container.Add(key, new List<char>() { alphabet });
-                }
-                
-                if (indexOfLetters == keys.Length)
-                {
-                    indexOfLetters = 0;
-                }
-            }
-            return container;
+            return (rowsCount % colCount) == 0
+                ? (rowsCount / colCount)
+                : (rowsCount / colCount) + 1;
         }
     }
 }
