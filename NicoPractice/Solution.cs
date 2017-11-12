@@ -33,12 +33,7 @@ namespace NicoPractice
 
         private static string PadRightByBlank(string text, int chunkSize, int rows)
         {
-            if (text.Length % chunkSize == 0)
-            {
-                return text;
-            }
-
-            return text.PadRight((rows + 1) * chunkSize, ' ');
+            return text.Length % chunkSize == 0 ? text : text.PadRight((rows + 1) * chunkSize, ' ');
         }
     }
 }
