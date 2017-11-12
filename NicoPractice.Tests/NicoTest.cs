@@ -14,8 +14,7 @@ namespace NicoPractice.Tests
         [TestCase("abc", "abcdef", "abcdef", TestName = "Nico_When_Key_is_bac_And_Message_is_abcdef_should_return_abcdef")]
         public void Basic_Nico_Variation(string key, string message, string expectedResult)
         {
-            var nico = new Nico();
-            var result = nico.NicoVariation(key,message);
+            var result = Kata.Nico(key,message);
 
             var expected = expectedResult;
 
