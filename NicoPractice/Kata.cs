@@ -26,14 +26,14 @@ namespace Solution
 
         private static IEnumerable<string> SplitTextByChunkSize(string text, int chunkSize)
         {
-            text = PadRightByBlank(text, chunkSize, text.Length / chunkSize);
+            text = PadRightByBlank(text, chunkSize);
 
             return Enumerable.Range(0, text.Length / chunkSize).Select(i => text.Substring(i * chunkSize, chunkSize));
         }
 
-        private static string PadRightByBlank(string text, int chunkSize, int rows)
+        private static string PadRightByBlank(string text, int chunkSize)
         {
-            return text.Length % chunkSize == 0 ? text : text.PadRight((rows + 1) * chunkSize, ' ');
+            return text.Length % chunkSize == 0 ? text : text.PadRight((text.Length / chunkSize + 1) * chunkSize, ' ');
         }
     }
 }
