@@ -10,12 +10,12 @@ namespace NicoPractice
     {
         public static string Nico(string keys, string plainText)
         {
-            var Datas = Split(plainText, keys.Length);
+            var plainTexts = SplitByLength(plainText, keys.Length);
 
-            return Datas.Aggregate(string.Empty, (current, data) => current + EncryptsByEachRow(keys, data));
+            return plainTexts.Aggregate(string.Empty, (current, text) => current + Encrypts(keys, text));
         }
 
-        private static string EncryptsByEachRow(string keys, string plainText)
+        private static string Encrypts(string keys, string plainText)
         {
             var encrypts = new Dictionary<char, char>();
             for (var indexOfKeys = 0; indexOfKeys < keys.Length; indexOfKeys++)
@@ -26,7 +26,7 @@ namespace NicoPractice
             return string.Join("", encrypts.OrderBy(x => x.Key).Select(x => x.Value).ToArray());
         }
 
-        static IEnumerable<string> Split(string str, int chunkSize)
+        private static IEnumerable<string> SplitByLength(string str, int chunkSize)
         {
             return Enumerable.Range(0, str.Length / chunkSize)
                 .Select(i => str.Substring(i * chunkSize, chunkSize));
