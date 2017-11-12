@@ -28,7 +28,7 @@ namespace NicoPractice
         {
             if (plainText.Length % chunkSize != 0)
             {
-                var length = (plainText.Length % chunkSize + 1) * plainText.Length;
+                var length = (plainText.Length / chunkSize + 1) * chunkSize;
                 plainText = plainText.PadRight(length, padChar);
             }
             return Enumerable.Range(0, plainText.Length / chunkSize).Select(i => plainText.Substring(i * chunkSize, chunkSize));
