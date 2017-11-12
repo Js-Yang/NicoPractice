@@ -14,14 +14,19 @@ namespace Solution
 
         private static string Encrypts(string keys, string plainText)
         {
-            var encrypts = new Dictionary<char, char>();
+            var unEncryptText = new Dictionary<char, char>();
 
             for (var index = 0; index < keys.Length; index++)
             {
-                encrypts.Add(keys[index], plainText[index]);
+                unEncryptText.Add(keys[index], plainText[index]);
             }
 
-            return string.Join("", encrypts.OrderBy(x => x.Key).Select(x => x.Value).ToArray());
+            return GetEncryptText(unEncryptText);
+        }
+
+        private static string GetEncryptText(Dictionary<char, char> unEncryptText)
+        {
+            return string.Concat(unEncryptText.OrderBy(x => x.Key).Select(x => x.Value).ToArray());
         }
 
         private static IEnumerable<string> SplitTextByChunkSize(string text, int chunkSize)
