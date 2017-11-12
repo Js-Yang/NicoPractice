@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace NicoPractice
 {
-    public class Nico
+    public class Kata
     {
         private const char DefaultAlphabet = ' ';
 
-        public string NicoVariation(string letters, string message)
+        public static string Nico(string letters, string message)
         {
             var keys = letters.ToCharArray();
             var alphabets = message.ToCharArray();
@@ -20,29 +20,29 @@ namespace NicoPractice
             var cyphertext = string.Empty;
             var keysCount = encryptsContainer.Count();
             var alphabetCount = encryptsContainer.Sum(keyValuePair => keyValuePair.Value.Count);
-            var rowCount = GetRowsCount(keysCount, alphabetCount);
+            var dataHeight = GetDataHeight(keysCount, alphabetCount);
 
-            for (var indexOfRow = 0; indexOfRow < rowCount; indexOfRow++)
+            for (var indexOfHeight = 0; indexOfHeight < dataHeight; indexOfHeight++)
             {
-                for (var indexOfColumn = 0; indexOfColumn < keysCount; indexOfColumn++)
+                for (var indexOfKey = 0; indexOfKey < keysCount; indexOfKey++)
                 {
-                    cyphertext = string.Concat(cyphertext, GetAlphabet(encryptsContainer, indexOfColumn, indexOfRow));
+                    cyphertext = string.Concat(cyphertext, GetAlphabetBy(encryptsContainer, indexOfKey, indexOfHeight));
                 }
             }
             return cyphertext;
         }
 
-        private static char GetAlphabet(IOrderedEnumerable<KeyValuePair<char, List<char>>> encryptsContainer, int indexOfColumn, int indexOfRow)
+        private static char GetAlphabetBy(IOrderedEnumerable<KeyValuePair<char, List<char>>> encryptsContainer, int indexOfKey, int indexOfHeight)
         {
             var alphabet = DefaultAlphabet;
-            if (encryptsContainer.ElementAt(indexOfColumn).Value.Count > indexOfRow)
+            if (encryptsContainer.ElementAt(indexOfKey).Value.Count > indexOfHeight)
             {
-                alphabet = encryptsContainer.ElementAt(indexOfColumn).Value[indexOfRow];
+                alphabet = encryptsContainer.ElementAt(indexOfKey).Value[indexOfHeight];
             }
             return alphabet;
         }
 
-        private static int GetRowsCount(int keysLength, int rowsCount)
+        private static int GetDataHeight(int keysLength, int rowsCount)
         {
             return (rowsCount % keysLength) == 0
                 ? (rowsCount / keysLength)
