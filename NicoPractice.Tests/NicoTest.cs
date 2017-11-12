@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace NicoPractice.Tests
+namespace Solution.Tests
 {
     public class NicoTest
     {
@@ -12,7 +12,7 @@ namespace NicoPractice.Tests
         [TestCase("crazy", "secretinformation", "cseerntiofarmit on  ", TestName = "Nico_When_Key_is_crazy_And_Message_is_secretinformation_should_return_cseerntiofarmit on  ")]
         public void Basic_Nico_Variation(string key, string message, string expectedResult)
         {
-            var result = Solution.Nico(key,message);
+            var result = Kata.Nico(key,message);
 
             var expected = expectedResult;
 

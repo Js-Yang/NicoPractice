@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace NicoPractice
+namespace Solution
 {
-    public class Solution
+    public class Kata
     {
         public static string Nico(string keys, string plainText)
         {
