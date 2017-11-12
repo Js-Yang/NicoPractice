@@ -7,9 +7,9 @@ namespace NicoPractice
     {
         public static string Nico(string keys, string plainText)
         {
-            var plainTextGroup = SplitTextByLength(plainText, keys.Length);
+            var chunkOfPlainText = SplitTextByChunkSize(plainText, keys.Length);
 
-            return plainTextGroup.Aggregate(string.Empty, (current, text) => current + Encrypts(keys, text));
+            return chunkOfPlainText.Aggregate(string.Empty, (current, text) => current + Encrypts(keys, text));
         }
 
         private static string Encrypts(string keys, string plainText)
@@ -24,7 +24,7 @@ namespace NicoPractice
             return string.Join("", encrypts.OrderBy(x => x.Key).Select(x => x.Value).ToArray());
         }
 
-        private static IEnumerable<string> SplitTextByLength(string text, int chunkSize)
+        private static IEnumerable<string> SplitTextByChunkSize(string text, int chunkSize)
         {
             text = PadRightByBlank(text, chunkSize, text.Length / chunkSize);
 
@@ -38,8 +38,7 @@ namespace NicoPractice
                 return text;
             }
 
-            var lengthNeeded = (rows + 1) * chunkSize;
-            return text.PadRight(lengthNeeded, ' ');
+            return text.PadRight((rows + 1) * chunkSize, ' ');
         }
     }
 }
