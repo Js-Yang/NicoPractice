@@ -18,18 +18,23 @@ namespace NicoPractice
         private static string Encrypts(string keys, string plainText)
         {
             var encrypts = new Dictionary<char, char>();
-            for (var indexOfKeys = 0; indexOfKeys < keys.Length; indexOfKeys++)
+
+            for (var index = 0; index < keys.Length; index++)
             {
-                encrypts.Add(keys[indexOfKeys], plainText[indexOfKeys]);
+                encrypts.Add(keys[index], plainText[index]);
             }
 
             return string.Join("", encrypts.OrderBy(x => x.Key).Select(x => x.Value).ToArray());
         }
 
-        private static IEnumerable<string> SplitByLength(string str, int chunkSize)
+        private static IEnumerable<string> SplitByLength(string plainText, int chunkSize, char padChar = ' ')
         {
-            return Enumerable.Range(0, str.Length / chunkSize)
-                .Select(i => str.Substring(i * chunkSize, chunkSize));
+            if (plainText.Length % chunkSize != 0)
+            {
+                var length = (plainText.Length % chunkSize + 1) * plainText.Length;
+                plainText = plainText.PadRight(length, padChar);
+            }
+            return Enumerable.Range(0, plainText.Length / chunkSize).Select(i => plainText.Substring(i * chunkSize, chunkSize));
         }
     }
 }
