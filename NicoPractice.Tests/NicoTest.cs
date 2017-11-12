@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace NicoPractice.Tests
 {
@@ -17,7 +12,7 @@ namespace NicoPractice.Tests
         [TestCase("crazy", "secretinformation", "cseerntiofarmit on  ", TestName = "Nico_When_Key_is_crazy_And_Message_is_secretinformation_should_return_cseerntiofarmit on  ")]
         public void Basic_Nico_Variation(string key, string message, string expectedResult)
         {
-            var result = Kata.Nico(key,message);
+            var result = Solution.Nico(key,message);
 
             var expected = expectedResult;
 
