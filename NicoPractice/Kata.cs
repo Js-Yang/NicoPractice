@@ -1,44 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Solution
 {
     public class Kata
     {
-        public static string Nico(string keys, string plainText)
+        public static string Nico(string keys, string message)
         {
-            var chunkOfPlainText = SplitTextByChunkSize(plainText, keys.Length);
+            var paragraphs = GetParagraphsByKeySize(message, keys.Length);
 
-            return chunkOfPlainText.Aggregate(string.Empty, (current, text) => current + Encrypts(keys, text));
+            return paragraphs.Aggregate(string.Empty, (cipherText, paragraph) => cipherText + Encrypts(keys, paragraph));
         }
 
-        private static string Encrypts(string keys, string plainText)
+        private static string Encrypts(string keys, string message)
         {
-            var unEncryptText = new Dictionary<char, char>();
-
-            for (var index = 0; index < keys.Length; index++)
-            {
-                unEncryptText.Add(keys[index], plainText[index]);
-            }
-
-            return GetEncryptText(unEncryptText);
+            var index = 0;
+            return GetCipherText(keys.ToDictionary(key => key, key => message[index++]));
         }
 
-        private static string GetEncryptText(Dictionary<char, char> unEncryptText)
+        private static IEnumerable<string> GetParagraphsByKeySize(string text, int chunkSize)
         {
-            return string.Concat(unEncryptText.OrderBy(x => x.Key).Select(x => x.Value).ToArray());
-        }
+            var textLengthNeeded = (int)(Math.Ceiling((double)text.Length / chunkSize) * chunkSize);
 
-        private static IEnumerable<string> SplitTextByChunkSize(string text, int chunkSize)
-        {
-            text = PadRightByBlank(text, chunkSize);
+            text = text.PadRight(textLengthNeeded, ' ');
 
             return Enumerable.Range(0, text.Length / chunkSize).Select(i => text.Substring(i * chunkSize, chunkSize));
         }
 
-        private static string PadRightByBlank(string text, int chunkSize)
+        private static string GetCipherText(Dictionary<char, char> keysMessage)
         {
-            return text.Length % chunkSize == 0 ? text : text.PadRight((text.Length / chunkSize + 1) * chunkSize, ' ');
+            return string.Concat(keysMessage.OrderBy(x => x.Key).Select(x => x.Value).ToArray());
         }
     }
 }
