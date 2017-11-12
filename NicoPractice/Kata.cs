@@ -8,18 +8,17 @@ namespace Solution
     {
         public static string Nico(string keys, string message)
         {
-            var paragraphs = GetParagraphsByKeySize(message, keys.Length);
-
+            var paragraphs = GetParagraphsByKeyLength(message, keys.Length);
             return paragraphs.Aggregate(string.Empty, (cipherText, paragraph) => cipherText + Encrypts(keys, paragraph));
         }
 
-        private static string Encrypts(string keys, string message)
+        private static string Encrypts(string keys, string plainText)
         {
             var index = 0;
-            return GetCipherText(keys.ToDictionary(key => key, key => message[index++]));
+            return GetCipherText(keys.ToDictionary(key => key, key => plainText[index++]));
         }
 
-        private static IEnumerable<string> GetParagraphsByKeySize(string text, int chunkSize)
+        private static IEnumerable<string> GetParagraphsByKeyLength(string text, int chunkSize)
         {
             var textLengthNeeded = (int)(Math.Ceiling((double)text.Length / chunkSize) * chunkSize);
 
